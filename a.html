@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ELITE SCRIPTS | Beyond Human Limits</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #050507;
+            --bg-secondary: #0a0a0f;
+            --surface: rgba(15, 15, 25, 0.8);
+            --border: rgba(138, 43, 226, 0.2);
+            --primary: #8a2be2; /* Varsayılan Mor */
+            --primary-glow: rgba(138, 43, 226, 0.3);
+            --text: #ffffff;
+            --text-muted: #88888d;
+            
+            /* Status Renkleri */
+            --undetected-color: #8a2be2; /* Mor */
+            --updating-color: #1e90ff;   /* Koyu Mavi */
+            --detected-color: #ff4d4d;   /* Açık Kırmızı */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            overflow-x: hidden;
+            cursor: none;
+            line-height: 1.6;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed; width: 12px; height: 12px; background: var(--primary);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            box-shadow: 0 0 15px var(--primary); transition: transform 0.1s, background-color 0.3s;
+        }
+        .custom-cursor.hover { transform: scale(2.5); background: transparent; border: 1px solid var(--primary); }
+
+        /* Background Effects */
+        .bg-container { position: fixed; inset: 0; z-index: 0; }
+        .purple-glow {
+            position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 0%, var(--primary-glow), transparent 70%);
+            transition: background 0.5s;
+        }
+        .grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 80px 80px; opacity: 0.1;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+        /* Status & Badge */
+        .status-container {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 2px; margin-bottom: 2rem;
+            transition: border-color 0.3s;
+        }
+        .status-dot {
+            width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary); animation: blink 1.5s infinite;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .status-text { font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; transition: color 0.3s; }
+
+        /* Header */
+        .header { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-decoration: none; }
+        .logo span { color: var(--primary); transition: color 0.3s; }
+
+        /* Sections */
+        .hero { padding: 6rem 0; text-align: center; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 5rem); font-weight: 900; letter-spacing: -3px; line-height: 1; margin-bottom: 2rem; }
+        .highlight { color: var(--primary); transition: color 0.3s; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto 3rem; }
+
+        /* Feature Cards */
+        .section-title { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 4rem; letter-spacing: -1px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 8rem; }
+        .feature-card {
+            background: var(--bg-secondary); border: 1px solid var(--border); padding: 2.5rem;
+            border-radius: 4px; transition: 0.3s;
+        }
+        .feature-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+        .feature-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary); transition: color 0.3s; }
+        .feature-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* Emulator Showcase */
+        .product-showcase {
+            display: flex; align-items: center; gap: 4rem; background: var(--surface);
+            padding: 4rem; border: 1px solid var(--border); border-radius: 4px; margin-bottom: 8rem;
+            transition: border-color 0.3s;
+        }
+        .product-img { width: 50%; border-radius: 4px; border: 1px solid var(--border); transition: border-color 0.3s; }
+        .product-content { width: 50%; }
+        .product-content h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .emu-list { list-style: none; margin-bottom: 2rem; }
+        .emu-list li { margin-bottom: 10px; font-family: 'JetBrains Mono'; font-size: 0.9rem; color: var(--text-muted); }
+        .emu-list li::before { content: '✓'; color: var(--primary); margin-right: 10px; font-weight: bold; transition: color 0.3s; }
+
+        /* Trust Section */
+        .trust-section { padding: 6rem 0; background: linear-gradient(to bottom, transparent, #0a0a15, transparent); text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-top: 4rem; }
+        .trust-item h4 { font-size: 1.1rem; margin-bottom: 1rem; color: #fff; }
+        .trust-item p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block; padding: 1.2rem 3rem; background: var(--primary);
+            color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 2px;
+            text-transform: uppercase; font-size: 0.8rem; border-radius: 2px; transition: 0.3s;
+        }
+        .btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; transform: translateY(-3px); }
+
+        .footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; }
+
+        @media (max-width: 900px) {
+            .product-showcase { flex-direction: column; padding: 2rem; }
+            .product-img, .product-content { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor"></div>
+    <div class="bg-container">
+        <div class="purple-glow"></div>
+        <div class="grid"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <a href="#" class="logo">ELITE<span>SCRIPTS</span></a>
+            <a href="https://discord.gg/WHGVVa9HEy" target="_blank" class="btn" style="padding: 0.7rem 1.5rem; font-size: 0.7rem;">Discord</a>
+        </header>
+
+        <section class="hero">
+            <div class="status-container">
+                <div class="status-dot"></div>
+                <span id="status-text" class="status-text">Undetected for 180+ Days</span>
+            </div>
+            <h1>UNMATCHED <br><span class="highlight">POWER.</span></h1>
+            <p>We provide high-tier kernel solutions for competitive gaming. Designed to be invisible, engineered to win.</p>
+            <a href="https://discord.gg/WHGVVa9HEy" target="_blank" class="btn">Get Access Now</a>
+        </section>
+
+        <h2 class="section-title">Core Technology</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Kernel Integrity</h3>
+                <p>Our tools operate at the highest privilege level of your OS, ensuring total bypass of standard anti-cheat scans.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Vanguard Bypass</h3>
+                <p>Specific modules designed to neutralize VAL 5 and -152 errors without hardware changes.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Zero Latency</h3>
+                <p>Highly optimized code that ensures 0% FPS drop during your sessions. Performance is our priority.</p>
+            </div>
+        </div>
+
+        <div class="product-showcase">
+            <img src="https://cdn.discordapp.com/attachments/1470819636546371616/1470850761289105693/image.png?ex=698ccc04&is=698b7a84&hm=18c9e22903741280bfc4b3ff20f381453a6df389b401ba8e5a01e57e7189179d" class="product-img" alt="Elite Emulator">
+            <div class="product-content">
+                <h2 class="highlight">ELITE EMULATOR V4</h2>
+                <ul class="emu-list">
+                    <li>PERMANENT BYPASS VAL 5 / -152</li>
+                    <li>NO BIOS FLASH / NO REINSTALL</li>
+                    <li>FULL WIN 10 & 11 COMPATIBILITY</li>
+                    <li>TPM & SECURE BOOT EMULATION</li>
+                </ul>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">The V4 iteration is the peak of our hardware emulation technology, making your PC look like a fresh machine to any AC.</p>
+                <a href="https://discord.gg/WHGVVa9HEy" target="_blank" class="btn" style="width: 100%; text-align: center;">View in Discord</a>
+            </div>
+        </div>
+
+        <section class="trust-section">
+            <h2 class="section-title">Why Trust Us?</h2>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <h4>Long-Term Stability</h4>
+                    <p>Unlike "paste" providers, we've been active for years with consistent updates and minimal downtime.</p>
+                </div>
+                <div class="trust-item">
+                    <h4>Dedicated Support</h4>
+                    <p>Our ticket system is open 24/7. We don't just sell; we help you set up until everything is perfect.</p>
+                </div>
+                <div class="trust-item">
+                    <h4>Private Community</h4>
+                    <p>We keep our user base elite and controlled to prevent massive detection waves. You are part of an exclusive group.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="text-align: center; padding: 8rem 0;">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem;">READY TO DOMINATE?</h2>
+            <a href="https://discord.gg/WHGVVa9HEy" target="_blank" class="btn">Join ELITE SCRIPTS today</a>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 ELITE SCRIPTS | SECURED BY XERNELA</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- DURUM AYARI (SADECE BURAYI DEĞİŞTİR) ---
+        // 'Undetected', 'Updating' veya 'Detected' yazabilirsin.
+        const ELITE_STATUS = 'Detected'; 
+
+        const root = document.querySelector(':root');
+        const statusText = document.getElementById('status-text');
+
+        function updateEliteStatus(status) {
+            if (status === 'Undetected') {
+                root.style.setProperty('--primary', 'var(--undetected-color)');
+                root.style.setProperty('--primary-glow', 'rgba(138, 43, 226, 0.3)');
+                statusText.textContent = 'Undetected';
+            } else if (status === 'Updating') {
+                root.style.setProperty('--primary', 'var(--updating-color)');
+                root.style.setProperty('--primary-glow', 'rgba(30, 144, 255, 0.3)');
+                statusText.textContent = 'Currently Updating...';
+            } else if (status === 'Detected') {
+                root.style.setProperty('--primary', 'var(--detected-color)');
+                root.style.setProperty('--primary-glow', 'rgba(255, 77, 77, 0.3)');
+                statusText.textContent = 'Detected - Use at your own risk';
+            }
+        }
+
+        updateEliteStatus(ELITE_STATUS);
+
+        // Cursor & Hover
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .feature-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+    </script>
+</body>
+</html>
